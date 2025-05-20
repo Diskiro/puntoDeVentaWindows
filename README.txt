@@ -63,7 +63,7 @@ Si prefiere no usar Visual Studio, puede seguir estos pasos:
 
 2. Clonar y Configurar:
    - Abra una terminal (PowerShell o CMD)
-   - Ejecute: git clone
+   - Ejecute: git clone [URL_DEL_REPOSITORIO]
    - Navegue a la carpeta del proyecto: cd puntoDeVentaWindows
    - Restaure las dependencias: dotnet restore
    - Compile el proyecto: dotnet build
@@ -80,4 +80,35 @@ Si prefiere no usar Visual Studio, puede seguir estos pasos:
 Notas Adicionales:
 - Si usa VS Code, instale la extensión "C#" para mejor soporte
 - Los comandos dotnet se ejecutan desde la terminal en la carpeta del proyecto
-- Para depurar, puede usar el depurador integrado de VS Code o JetBrains Rider 
+- Para depurar, puede usar el depurador integrado de VS Code o JetBrains Rider
+
+====================================================
+CONFIGURACIÓN INICIAL DEL PROYECTO
+====================================================
+
+Después de clonar el proyecto, es importante realizar la siguiente configuración:
+
+1. Base de Datos:
+   - La base de datos clientes.db debe estar en la carpeta raíz del proyecto
+   - Si la base de datos no existe, se creará automáticamente al ejecutar el programa
+   - Asegúrese de que la aplicación tenga permisos de escritura en la carpeta
+
+2. Configuración del Proyecto:
+   - Verifique que el archivo PuntoDeVenta.csproj tenga todas las dependencias necesarias
+   - Si hay errores de compilación, ejecute 'dotnet restore' para actualizar los paquetes
+   - Para desarrollo, use el perfil de depuración (Debug)
+
+3. Estructura de Carpetas:
+   - bin/: Contiene los archivos compilados (no modificar manualmente)
+   - obj/: Archivos temporales de compilación (no modificar)
+   - Output/: Carpeta donde se genera el instalador
+
+4. Solución de Problemas Comunes:
+   - Si hay errores de compilación, verifique que .NET 6.0 SDK esté instalado correctamente
+   - Si la base de datos no se crea, verifique los permisos de la carpeta
+   - Si el instalador no se genera, asegúrese de que Inno Setup esté instalado correctamente
+
+5. Desarrollo:
+   - Use el modo Debug para desarrollo y pruebas
+   - Use el modo Release para generar el instalador final
+   - Mantenga una copia de seguridad de la base de datos antes de hacer cambios importantes 
