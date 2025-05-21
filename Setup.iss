@@ -1,7 +1,8 @@
-#define MyAppName "Punto de Venta"
+#define MyAppName "Chetegamis"
 #define MyAppVersion "1.0"
-#define MyAppPublisher "Tu Empresa"
-#define MyAppExeName "PuntoDeVenta.exe"
+#define MyAppPublisher "JoshuaDev.Inc"
+#define MyAppExeName "Chetegamis.exe"
+#define MyAppSetupName "ChetegamisSetup"
 
 [Setup]
 AppId={{joshua2406199430}}
@@ -12,7 +13,7 @@ DefaultDirName={userappdata}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 OutputDir=Output
-OutputBaseFilename=PuntoDeVentaSetup
+OutputBaseFilename={#MyAppSetupName}
 Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=lowest
