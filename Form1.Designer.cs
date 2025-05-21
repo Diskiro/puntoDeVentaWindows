@@ -31,7 +31,8 @@ namespace PuntoDeVenta
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 400);
-            this.Text = "Sistema de Clientes";
+            this.Text = "Chetegamis";
+            this.Icon = new System.Drawing.Icon("Chetegamis_logo.ico");
         }
 
         #endregion

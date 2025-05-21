@@ -26,6 +26,7 @@ namespace PuntoDeVenta
         public Form1()
         {
             InitializeComponent();
+            this.Icon = new Icon("Chetegamis_logo.ico");
             InitializeDatabase();
             SetupForm();
             ApplyTheme();
@@ -163,7 +164,7 @@ namespace PuntoDeVenta
 
         private void SetupForm()
         {
-            this.Text = "Sistema de Clientes";
+            this.Text = "Chetegamis";
             this.Size = new Size(800, 600);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -206,29 +207,29 @@ namespace PuntoDeVenta
             // Panel de datos
             panelDatos = new Panel
             {
-                Location = new Point(0, 90),
+                Location = new Point(10, 90),
                 Size = new Size(760, 400),
                 Padding = new Padding(20),
                 Visible = false
             };
 
             // Controles del panel de datos
-            lblNombre = new Label { Text = "Nombre:", Location = new Point(20, 20), AutoSize = true };
-            txtNombre = new TextBox { Location = new Point(120, 20), Size = new Size(400, 30) };
+            lblNombre = new Label { Text = "Nombre:", Location = new Point(20, 35), AutoSize = true };
+            txtNombre = new TextBox { Location = new Point(130, 20), Size = new Size(400, 30) };
 
-            lblDireccion = new Label { Text = "Dirección:", Location = new Point(20, 70), AutoSize = true };
-            txtDireccion = new TextBox { Location = new Point(120, 70), Size = new Size(400, 30) };
+            lblDireccion = new Label { Text = "Dirección:", Location = new Point(20, 85), AutoSize = true };
+            txtDireccion = new TextBox { Location = new Point(130, 70), Size = new Size(400, 30) };
 
-            lblColorCasa = new Label { Text = "Color de Casa:", Location = new Point(20, 120), AutoSize = true };
-            txtColorCasa = new TextBox { Location = new Point(120, 120), Size = new Size(400, 30) };
+            lblColorCasa = new Label { Text = "Color de Casa:", Location = new Point(20, 135), AutoSize = true };
+            txtColorCasa = new TextBox { Location = new Point(130, 120), Size = new Size(400, 30) };
 
-            lblReferencias = new Label { Text = "Referencias:", Location = new Point(20, 170), AutoSize = true };
-            txtReferencias = new TextBox { Location = new Point(120, 170), Size = new Size(400, 30) };
+            lblReferencias = new Label { Text = "Referencias:", Location = new Point(20, 185), AutoSize = true };
+            txtReferencias = new TextBox { Location = new Point(130, 170), Size = new Size(400, 30) };
 
             btnGuardar = new Button
             {
                 Text = "Guardar",
-                Location = new Point(120, 230),
+                Location = new Point(130, 230),
                 Size = new Size(120, 35)
             };
             btnGuardar.Click += BtnGuardar_Click;
