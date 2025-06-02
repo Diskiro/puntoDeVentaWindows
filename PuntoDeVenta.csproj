@@ -11,6 +11,7 @@
     <ApplicationIcon>Chetegamis_logo.ico</ApplicationIcon>
     <AssemblyName>Chetegamis</AssemblyName>
     <RootNamespace>Chetegamis</RootNamespace>
+    <OutputName>Chetegamis</OutputName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +20,9 @@
 
   <ItemGroup>
     <None Update="SQLite.Interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Chetegamis_logo.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

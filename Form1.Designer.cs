@@ -1,3 +1,6 @@
+using System.IO;
+using System.Windows.Forms;
+
 namespace PuntoDeVenta
 {
     partial class Form1
@@ -32,7 +35,11 @@ namespace PuntoDeVenta
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 400);
             this.Text = "Chetegamis";
-            this.Icon = new System.Drawing.Icon("Chetegamis_logo.ico");
+            string iconPath = Path.Combine(Application.StartupPath, "Chetegamis_logo.ico");
+            if (File.Exists(iconPath))
+            {
+                this.Icon = new System.Drawing.Icon(iconPath);
+            }
         }
 
         #endregion
