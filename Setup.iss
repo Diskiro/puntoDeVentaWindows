@@ -1,6 +1,6 @@
 #define MyAppName "Chetegamis"
 #define MyAppVersion "1.0"
-#define MyAppPublisher "JoshuaDev.Inc"
+#define MyAppPublisher "JoshuaAnMe"
 #define MyAppExeName "Chetegamis.exe"
 #define MyAppSetupName "ChetegamisSetup"
 
@@ -16,7 +16,7 @@ OutputDir=Output
 OutputBaseFilename={#MyAppSetupName}
 Compression=lzma
 SolidCompression=yes
-PrivilegesRequired=lowest
+PrivilegesRequired=admin
 
 [Languages]
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"

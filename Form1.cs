@@ -47,7 +47,7 @@ namespace PuntoDeVenta
             // Configurar el formulario principal
             this.BackColor = secondaryColor;
             this.Font = new Font("Segoe UI", 9F);
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
             this.MaximizeBox = false;
             this.StartPosition = FormStartPosition.CenterScreen;
 
@@ -141,6 +141,10 @@ namespace PuntoDeVenta
             {
                 txtReferencias.Width = 400;
             }
+            if (txtOrden != null)
+            {
+                txtOrden.Height = 100;
+            }
 
             // Estilo especial para el botón de imprimir
             if (btnImprimir != null)
@@ -181,15 +185,19 @@ namespace PuntoDeVenta
             this.Text = "Chetegamis";
             this.Size = new Size(800, 600);
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.MinimumSize = new Size(800, 600);
+            this.MaximizeBox = true;
+            this.AutoScaleMode = AutoScaleMode.Inherit;
 
             // Panel de búsqueda
             Panel searchPanel = new Panel
             {
                 Location = new Point(0, 0),
                 Size = new Size(800, 80),
-                Padding = new Padding(20)
+                Padding = new Padding(20),
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
+                Dock = DockStyle.Top
             };
 
             Label lblTelefono = new Label
@@ -207,6 +215,7 @@ namespace PuntoDeVenta
             };
             txtTelefono.KeyPress += TxtTelefono_KeyPress;
             txtTelefono.TextChanged += TxtTelefono_TextChanged;
+            txtTelefono.KeyDown += TxtTelefono_KeyDown;
 
             btnBuscar = new Button
             {
@@ -224,7 +233,8 @@ namespace PuntoDeVenta
                 Location = new Point(10, 90),
                 Size = new Size(760, 400),
                 Padding = new Padding(20),
-                Visible = false
+                Visible = false,
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom
             };
 
             // Controles del panel de datos
@@ -241,12 +251,18 @@ namespace PuntoDeVenta
             txtReferencias = new TextBox { Location = new Point(130, 170), Size = new Size(400, 30) };
 
             lblOrden = new Label { Text = "Orden:", Location = new Point(20, 235), AutoSize = true };
-            txtOrden = new TextBox { Location = new Point(130, 220), Size = new Size(400, 80) };
+            txtOrden = new TextBox 
+            { 
+                Location = new Point(130, 220), 
+                Size = new Size(400, 200),
+                Multiline = true,
+                ScrollBars = ScrollBars.Vertical
+            };
 
             btnGuardar = new Button
             {
                 Text = "Guardar",
-                Location = new Point(130, 280),
+                Location = new Point(130, 340),
                 Size = new Size(120, 35)
             };
             btnGuardar.Click += BtnGuardar_Click;
@@ -254,7 +270,7 @@ namespace PuntoDeVenta
             btnImprimir = new Button
             {
                 Text = "Imprimir",
-                Location = new Point(270, 280),
+                Location = new Point(270, 340),
                 Size = new Size(120, 35),
                 Enabled = false
             };
@@ -295,6 +311,15 @@ namespace PuntoDeVenta
             txtTelefono.Text = Regex.Replace(txtTelefono.Text, "[^0-9]", "");
         }
 
+        private void TxtTelefono_KeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                BtnBuscar_Click(sender, e);
+            }
+        }
+
         private void BtnBuscar_Click(object? sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtTelefono.Text))
@@ -325,6 +350,7 @@ namespace PuntoDeVenta
                             txtDireccion.Text = reader["Direccion"].ToString();
                             txtColorCasa.Text = reader["ColorCasa"].ToString();
                             txtReferencias.Text = reader["Referencias"].ToString();
+                            txtOrden.Clear();
                             panelDatos.Visible = true;
                             btnGuardar.Text = "Actualizar";
                         }
@@ -335,6 +361,7 @@ namespace PuntoDeVenta
                             txtDireccion.Clear();
                             txtColorCasa.Clear();
                             txtReferencias.Clear();
+                            txtOrden.Clear();
                             panelDatos.Visible = true;
                             btnGuardar.Text = "Guardar";
                         }
@@ -438,6 +465,7 @@ namespace PuntoDeVenta
 
             PrintPreviewDialog preview = new PrintPreviewDialog();
             preview.Document = pd;
+            preview.WindowState = FormWindowState.Maximized; // Maximizar la ventana de vista previa
             preview.ShowDialog();
         }
     }
