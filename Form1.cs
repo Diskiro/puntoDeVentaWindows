@@ -4,6 +4,7 @@ using System.Data.SQLite;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Drawing.Printing;
 
 namespace PuntoDeVenta
 {
@@ -14,12 +15,15 @@ namespace PuntoDeVenta
         private TextBox txtDireccion = null!;
         private TextBox txtColorCasa = null!;
         private TextBox txtReferencias = null!;
+        private TextBox txtOrden = null!;
         private Button btnBuscar = null!;
         private Button btnGuardar = null!;
+        private Button btnImprimir = null!;
         private Label lblNombre = null!;
         private Label lblDireccion = null!;
         private Label lblColorCasa = null!;
         private Label lblReferencias = null!;
+        private Label lblOrden = null!;
         private Panel panelDatos = null!;
         private readonly string connectionString = "Data Source=clientes.db;Version=3;";
 
@@ -137,6 +141,16 @@ namespace PuntoDeVenta
             {
                 txtReferencias.Width = 400;
             }
+
+            // Estilo especial para el botón de imprimir
+            if (btnImprimir != null)
+            {
+                btnImprimir.Width = 120;
+                btnImprimir.BackColor = Color.FromArgb(52, 152, 219); // Azul
+                btnImprimir.FlatAppearance.BorderColor = Color.FromArgb(52, 152, 219);
+                btnImprimir.FlatAppearance.MouseOverBackColor = Color.FromArgb(41, 128, 185);
+                btnImprimir.FlatAppearance.MouseDownBackColor = Color.FromArgb(36, 113, 163);
+            }
         }
 
         private void InitializeDatabase()
@@ -181,7 +195,7 @@ namespace PuntoDeVenta
             Label lblTelefono = new Label
             {
                 Text = "Teléfono:",
-                Location = new Point(20, 25),
+                Location = new Point(20, 35),
                 AutoSize = true
             };
 
@@ -220,27 +234,47 @@ namespace PuntoDeVenta
             lblDireccion = new Label { Text = "Dirección:", Location = new Point(20, 85), AutoSize = true };
             txtDireccion = new TextBox { Location = new Point(130, 70), Size = new Size(400, 30) };
 
-            lblColorCasa = new Label { Text = "Color de Casa:", Location = new Point(20, 135), AutoSize = true };
+            lblColorCasa = new Label { Text = "Color de \nCasa:", Location = new Point(20, 125), AutoSize = true };
             txtColorCasa = new TextBox { Location = new Point(130, 120), Size = new Size(400, 30) };
 
             lblReferencias = new Label { Text = "Referencias:", Location = new Point(20, 185), AutoSize = true };
             txtReferencias = new TextBox { Location = new Point(130, 170), Size = new Size(400, 30) };
 
+            lblOrden = new Label { Text = "Orden:", Location = new Point(20, 235), AutoSize = true };
+            txtOrden = new TextBox { Location = new Point(130, 220), Size = new Size(400, 80) };
+
             btnGuardar = new Button
             {
                 Text = "Guardar",
-                Location = new Point(130, 230),
+                Location = new Point(130, 280),
                 Size = new Size(120, 35)
             };
             btnGuardar.Click += BtnGuardar_Click;
+
+            btnImprimir = new Button
+            {
+                Text = "Imprimir",
+                Location = new Point(270, 280),
+                Size = new Size(120, 35),
+                Enabled = false
+            };
+            btnImprimir.Click += BtnImprimir_Click;
 
             panelDatos.Controls.AddRange(new Control[] {
                 lblNombre, txtNombre,
                 lblDireccion, txtDireccion,
                 lblColorCasa, txtColorCasa,
                 lblReferencias, txtReferencias,
-                btnGuardar
+                lblOrden, txtOrden,
+                btnGuardar, btnImprimir
             });
+
+            // Agregar manejadores de eventos para validar campos
+            txtNombre.TextChanged += ValidateFields;
+            txtDireccion.TextChanged += ValidateFields;
+            txtColorCasa.TextChanged += ValidateFields;
+            txtReferencias.TextChanged += ValidateFields;
+            txtOrden.TextChanged += ValidateFields;
 
             // Agregar paneles al formulario
             this.Controls.AddRange(new Control[] { searchPanel, panelDatos });
@@ -357,6 +391,54 @@ namespace PuntoDeVenta
                     }
                 }
             }
+        }
+
+        private void ValidateFields(object? sender, EventArgs e)
+        {
+            bool allFieldsFilled = !string.IsNullOrWhiteSpace(txtNombre.Text) &&
+                                 !string.IsNullOrWhiteSpace(txtDireccion.Text) &&
+                                 !string.IsNullOrWhiteSpace(txtColorCasa.Text) &&
+                                 !string.IsNullOrWhiteSpace(txtReferencias.Text) &&
+                                 !string.IsNullOrWhiteSpace(txtOrden.Text);
+
+            btnImprimir.Enabled = allFieldsFilled;
+        }
+
+        private void BtnImprimir_Click(object? sender, EventArgs e)
+        {
+            PrintDocument pd = new PrintDocument();
+            pd.PrintPage += (s, ev) =>
+            {
+                float yPos = 50;
+                float leftMargin = ev.MarginBounds.Left;
+                float topMargin = ev.MarginBounds.Top;
+
+                // Configurar la fuente
+                using (Font titleFont = new Font("Arial", 16, FontStyle.Bold))
+                using (Font normalFont = new Font("Arial", 12))
+                {
+                    // Título
+                    ev.Graphics.DrawString("Chetegamis", titleFont, Brushes.Black, leftMargin, yPos);
+                    yPos += 40;
+
+                    // Datos del cliente
+                    ev.Graphics.DrawString($"Teléfono: {txtTelefono.Text}", normalFont, Brushes.Black, leftMargin, yPos);
+                    yPos += 20;
+                    ev.Graphics.DrawString($"Nombre: {txtNombre.Text}", normalFont, Brushes.Black, leftMargin, yPos);
+                    yPos += 20;
+                    ev.Graphics.DrawString($"Dirección: {txtDireccion.Text}", normalFont, Brushes.Black, leftMargin, yPos);
+                    yPos += 20;
+                    ev.Graphics.DrawString($"Color de Casa: {txtColorCasa.Text}", normalFont, Brushes.Black, leftMargin, yPos);
+                    yPos += 20;
+                    ev.Graphics.DrawString($"Referencias: {txtReferencias.Text}", normalFont, Brushes.Black, leftMargin, yPos);
+                    yPos += 20;
+                    ev.Graphics.DrawString($"Orden: {txtOrden.Text}", normalFont, Brushes.Black, leftMargin, yPos);
+                }
+            };
+
+            PrintPreviewDialog preview = new PrintPreviewDialog();
+            preview.Document = pd;
+            preview.ShowDialog();
         }
     }
 } 
